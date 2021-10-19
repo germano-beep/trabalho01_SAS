@@ -15,7 +15,7 @@ def mdc(num1, num2):
 # aletório entre um e o tociente em que o mdc dele e o tociente seja 1
 def create_public_key(tociente):
     while True:
-        e = random.randrange(1, tociente)
+        e = random.randrange(2, tociente)
         if(mdc(tociente, e) == 1):
             return e
 
@@ -33,7 +33,7 @@ def create_encrypted_message(message, e, n):
         # função ord() recebe uma letra como parâmetro e retorna o código ASCII dela
         # ** potência
         key = (ord(letter) ** e) % n
-        #  chr() recebe código ASCII e  é retornado a letra.
+        #  chr() recebe código ASCII e é retornado a letra.
         encrypted_message += chr(key)
     return encrypted_message
 
@@ -41,31 +41,34 @@ def create_encrypted_message(message, e, n):
 def create_decrypted_message(message, n, d):
     decrypted_message = ""
     for letter in message:
-        key = ((ord(letter) ** d % n))
+        key = ((ord(letter) ** d) % n)
         decrypted_message += chr(key)
     return decrypted_message
 
 
 def execute_rsa():
-    message = "Segurança e Auditoria de Sistemas, matéria obrigatória"
-    p = 131
-    q = 157
-    # n é o tamanho do conjunto
+    message = input("Escreva uma mensagem a ser criptografada: ")
+    p = int(input("Escolha um número primo: "))
+    q = int(input("Escolha outro número primo: "))
     n = p * q
     tociente = (p - 1) * (q - 1)
+
+    print("\n")
 
     # número co-primo com o tociente de n
     e = create_public_key(tociente)
     d = create_private_key(tociente, e)
 
     print(f"Chave publica: ({e}, {n})")
-    print(f"Chave privada: ({d}, {n})")
+    print(f"Chave privada: ({d}, {n}) \n")
 
     message = create_encrypted_message(message, e, n)
-    print(f"Criptografada: {message}")
+    print(f"Mensagem Criptografada: {message}")
+
+    input()
 
     message = create_decrypted_message(message, n, d)
-    print(f"Descriptografada: {message}")
+    print(f"Mensagem Descriptografada: {message}")
 
 
 execute_rsa()
