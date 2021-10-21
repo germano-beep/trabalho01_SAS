@@ -1,5 +1,6 @@
 # biblibote para gerar número aleatórios
 import random
+import time
 
 # função utilizada para encontrar o maximo divisor comum, utilizado para
 # escolher um número entre 1 < e < φ(x)
@@ -41,13 +42,13 @@ def create_encrypted_message(message, e, n):
 def create_decrypted_message(message, n, d):
     decrypted_message = ""
     for letter in message:
-        key = ((ord(letter) ** d) % n)
+        key = (ord(letter) ** d) % n
         decrypted_message += chr(key)
     return decrypted_message
 
 
 def execute_rsa():
-    message = input("Escreva uma mensagem a ser criptografada: ")
+    message = input("\nEscreva uma mensagem a ser criptografada: ")
     p = int(input("Escolha um número primo: "))
     q = int(input("Escolha outro número primo: "))
     n = p * q
@@ -62,13 +63,24 @@ def execute_rsa():
     print(f"Chave publica: ({e}, {n})")
     print(f"Chave privada: ({d}, {n}) \n")
 
+    inicio = time.time()
     message = create_encrypted_message(message, e, n)
+    fim = time.time()
     print(f"Mensagem Criptografada: {message}")
+    print(f"Tempo para criptografar: {fim-inicio}")
+    
+    inicio = None
+    fim = None
+
 
     input()
 
+    inicio = time.time()
     message = create_decrypted_message(message, n, d)
+    fim = time.time()
+
     print(f"Mensagem Descriptografada: {message}")
+    print(f"Tempo para descriptografar: {fim-inicio}")
 
 
 execute_rsa()
