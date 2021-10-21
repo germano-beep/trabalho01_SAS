@@ -67,13 +67,13 @@ def execute_rsa():
     message = create_encrypted_message(message, e, n)
     fim = time.time()
     print(f"Mensagem Criptografada: {message}")
-    print(f"Tempo para criptografar: {fim-inicio}")
+    print(f"Tempo para criptografar: {fim-inicio}\n")
     
     inicio = None
     fim = None
 
 
-    input()
+    
 
     inicio = time.time()
     message = create_decrypted_message(message, n, d)

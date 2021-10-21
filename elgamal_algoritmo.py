@@ -1,7 +1,7 @@
 # biblibote para gerar número aleatórios
 import random
 from math import pow
-
+import time
 
 a = random.randint(2, 10)
 
@@ -50,6 +50,7 @@ def encrypt(msg, q, h, g):
 
 	print("g^k usada : ", p)
 	print("g^ak usada : ", s)
+	print("\n")
 	for i in range(0, len(en_msg)):
 		en_msg[i] = s * ord(en_msg[i])
 
@@ -64,27 +65,36 @@ def decrypt(en_msg, p, key, q):
 		
 	return dr_msg
 
-
 def main():
+    msg = input("\nEscreva uma mensagem a ser criptografada: ")
+    print(F"Mensagem original: {msg}\n")
 
-	msg = 'Seguranca e Auditoria de Sistemas'
-	print("Menssagem original :", msg)
+    q = random.randint(pow(10, 20), pow(10, 50))
+    g = random.randint(2, q)
 
-	q = random.randint(pow(10, 20), pow(10, 50))
-	g = random.randint(2, q)
+    key = gen_key(q)# Recebendo a chave privada
+    h = power(g, key, q)
+    print("g usada : ", g)
+    print("g^a usada : ", h)
 
+    inicio = time.time()
+    en_msg, p = encrypt(msg, q, h, g)
+    fim = time.time()
 
+    print("Mensagem Criptografada:", en_msg)
+    print("Tempo para criptografar:", fim-inicio)
+    print("\n")
 
-	key = gen_key(q)# Recebendo a chave privada
-	h = power(g, key, q)
-	print("g usada : ", g)
-	print("g^a usada : ", h)
+    inicio = None
+    fim = None
 
-	en_msg, p = encrypt(msg, q, h, g)
-	dr_msg = decrypt(en_msg, p, key, q)
-	dmsg = ''.join(dr_msg)
-	print("Menssagem descriptografada :", dmsg);
+    inicio = time.time()
+    dr_msg = decrypt(en_msg, p, key, q)
+    fim = time.time()
 
+    dmsg = ''.join(dr_msg)
+    print("Menssagem descriptografada :", dmsg)
+    print("Tempo para descriptografar:", fim-inicio)
 
 if __name__ == '__main__':
-	main()
+    main()
